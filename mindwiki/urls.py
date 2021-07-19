@@ -1,36 +1,39 @@
-"""mindwiki URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 from django.views.generic.base import RedirectView
 
-admin.site.site_header = "MindWiki"
-admin.site.site_title = "MindWiki"
-admin.site.index_title = "MindWiki Administration"
+from .views import page, tag, weblink
 
+app_name = 'mindwiki'
 urlpatterns = [
-    path('', RedirectView.as_view(url='/wiki/')),
-    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
-    path('wiki/', include('wiki.urls')),
-    path('wordcloud/', include('word_cloud.urls')),
-    path('admin/', admin.site.urls),
-]
+    # FIXME: Change absolute URL used here to a Django resolved URL
+    path('', RedirectView.as_view(url='/mindwiki/page/'), name='index'),
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    # FIXME: Change absolute URL used here to a Django resolved URL
+    path('page/', RedirectView.as_view(url='/mindwiki/page/list'),
+         name='page-index'),
+    path('page/list', page.PageListView.as_view(), name='page-list'),
+    # TODO: Enable once auth is figured out
+    # path('page/new', views.PageCreateView.as_view(), name='page-new'),
+    path('page/search', page.PageSearchView.as_view(), name='page-search'),
+    path('page/<slug:slug>/', page.PageDetailView.as_view(),
+         name='page-detail'),
+    # TODO: Enable once auth is figured out
+    # path('page/<slug:slug>/edit', views.PageUpdateView.as_view(),
+    #     name='page-edit'),
+
+    # FIXME: Change absolute URL used here to a Django resolved URL
+    path('tag/', RedirectView.as_view(url='/mindwiki/tag/list'), name='tag-index'),
+    path('tag/list', tag.TagListView.as_view(), name='tag-list'),
+    path('tag/search', tag.TagSearchView.as_view(), name='tag-search'),
+    path('tag/<slug:slug>/', tag.TagDetailView.as_view(), name='tag-detail'),
+
+    # FIXME: Change absolute URL used here to a Django resolved URL
+    path('weblink/', RedirectView.as_view(url='/mindwiki/weblink/list'),
+         name='weblink-index'),
+    path('weblink/list', weblink.WebLinkListView.as_view(),
+         name='weblink-list'),
+    path('weblink/search', weblink.WebLinkSearchView.as_view(),
+         name='weblink-search'),
+    path('weblink/<slug:slug>/', weblink.WebLinkDetailView.as_view(),
+         name='weblink-detail'),
+]
