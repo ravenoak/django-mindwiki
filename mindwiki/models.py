@@ -49,6 +49,7 @@ class Tag(models.Model):
 
 
 class TagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
     search_fields = ['description__contains',
                      'name__contains',
                      'slug__contains']
