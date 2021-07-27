@@ -21,7 +21,7 @@ class PageUpdateView(generic.UpdateView):
 
 class PageListView(generic.ListView):
     model = Page
-    ordering = '-date_created'
+    ordering = '-date_modified'
     paginate_by = 9
     template_name = 'wiki/page/list.html'
 
