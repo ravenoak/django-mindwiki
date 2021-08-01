@@ -50,7 +50,8 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarSearchDropdown">
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:page-search' %}">Pages</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:tag-search' %}">Tags</a></li>
-                                <li><a class="dropdown-item" href="{% url 'mindwiki:weblink-search' %}">WebLinks</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mindwiki:weblink-search' %}">WebLinks</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -72,8 +73,9 @@
                         <span><a class="nav-link text-black font-weight-bold"
                                  href="{% url 'mindwiki:index' %}">About</a></span>
                         <span><a class="nav-link text-black font-weight-bold"
-                                 href="https://github.com/ravenoak/mindwiki.py">GitHub</a></span>
-                        <span><a class="nav-link text-black font-weight-bold" href="{% url 'mindwiki:index' %}"></a></span>
+                                 href="https://github.com/ravenoak/django-mindwiki">GitHub</a></span>
+                        <span><a class="nav-link text-black font-weight-bold"
+                                 href="{% url 'mindwiki:index' %}"></a></span>
                         <span><a class="nav-link text-black font-weight-bold" href="#"></a></span>
                     </div>
                 </div>

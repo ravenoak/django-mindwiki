@@ -5,10 +5,12 @@ from django.views import generic
 
 from mindwiki.models import WebLink
 
+TEMPLATE_PATH = 'mindwiki/weblink/'
+
 
 class WebLinkDetailView(generic.DetailView):
     model = WebLink
-    template_name = 'wiki/weblink/detail.html'
+    template_name = TEMPLATE_PATH + 'detail.html'
 
     def get(self, request, *args, **kwargs):
         json_requested = self.request.GET.get('json', False)
@@ -26,13 +28,13 @@ class WebLinkListView(generic.ListView):
     model = WebLink
     ordering = '-last_verified'
     paginate_by = 9
-    template_name = 'wiki/weblink/list.html'
+    template_name = TEMPLATE_PATH + 'list.html'
 
 
 class WebLinkSearchView(generic.ListView):
     context_object_name = 'search_results'
     paginate_by = 9
-    template_name = 'wiki/weblink/search.html'
+    template_name = TEMPLATE_PATH + 'search.html'
 
     def get_queryset(self):
         contains = self.request.GET.get('contains', None)
