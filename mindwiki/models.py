@@ -25,11 +25,26 @@ class Page(models.Model):
 
 class PageAdmin(admin.ModelAdmin):
     autocomplete_fields = ['tags']
-    prepopulated_fields = {"slug": ("title",)}
+    prepopulated_fields = {'slug': ('title',)}
     search_fields = ['body__contains',
                      'slug__contains',
                      'title__contains',
                      'tags__name__contains']
+
+
+class Project(models.Model):
+
+    class ProjectStatus(models.TextChoices):
+        NOT_STARTED = 'NS', 'Not Started'
+        IN_PROGRESS = 'IP', 'In Progress'
+        BLOCKED = 'B', 'Blocked'
+
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(unique=True)
+    status = models.CharField(
+        choices=ProjectStatus.choices,
+        default=ProjectStatus.NOT_STARTED)
+    tags = models.ManyToManyField('Tag')
 
 
 class Tag(models.Model):
@@ -49,7 +64,7 @@ class Tag(models.Model):
 
 
 class TagAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['description__contains',
                      'name__contains',
                      'slug__contains']
@@ -57,7 +72,7 @@ class TagAdmin(admin.ModelAdmin):
 
 class WebLink(models.Model):
     slug = models.SlugField(unique=True)
-    url = models.URLField(unique=True)
+    url = models.URLField(unique=True, verbose_name='URL')
     description = models.TextField(blank=True)
     tags = models.ManyToManyField('Tag')
     last_verified = models.DateTimeField(blank=True, null=True)
