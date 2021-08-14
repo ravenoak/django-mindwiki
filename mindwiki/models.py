@@ -1,4 +1,9 @@
-__all__ = ['Page', 'PageAdmin', 'Tag', 'TagAdmin', 'WebLink', 'WebLinkAdmin']
+__all__ = [
+    'Page', 'PageAdmin',
+    'Project', 'ProjectAdmin',
+    'Tag', 'TagAdmin',
+    'WebLink', 'WebLinkAdmin',
+]
 
 from django.contrib import admin
 from django.db import models
@@ -25,6 +30,7 @@ class Page(models.Model):
 
 class PageAdmin(admin.ModelAdmin):
     autocomplete_fields = ['tags']
+    list_display = ('slug', 'date_created', 'date_modified')
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ['body__contains',
                      'slug__contains',
@@ -33,18 +39,34 @@ class PageAdmin(admin.ModelAdmin):
 
 
 class Project(models.Model):
-
     class ProjectStatus(models.TextChoices):
         NOT_STARTED = 'NS', 'Not Started'
         IN_PROGRESS = 'IP', 'In Progress'
         BLOCKED = 'B', 'Blocked'
 
     name = models.CharField(max_length=64)
+    description = models.TextField(blank=True)
     slug = models.SlugField(unique=True)
     status = models.CharField(
         choices=ProjectStatus.choices,
-        default=ProjectStatus.NOT_STARTED)
+        default=ProjectStatus.NOT_STARTED,
+        max_length=3, )
+    pages = models.ManyToManyField('Page')
     tags = models.ManyToManyField('Tag')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['tags']
+    list_display = ('name', 'status')
+    list_filter = ('status', 'tags')
+    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['description__contains',
+                     'name__contains',
+                     'slug__contains',
+                     'status__contains',
+                     'tags__name__contains']
 
 
 class Tag(models.Model):
@@ -90,6 +112,8 @@ class WebLink(models.Model):
 
 class WebLinkAdmin(admin.ModelAdmin):
     autocomplete_fields = ['tags']
+    list_display = ('slug', 'url', 'last_verified')
+    list_filter = ('last_verified', 'tags')
     search_fields = ['description__contains',
                      'slug__contains',
                      'url__contains',

@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from django.views.generic.base import RedirectView
 
-from .views import page, tag, weblink
+from .views import page, project, tag, weblink
 
 app_name = 'mindwiki'
 urlpatterns = [
@@ -20,6 +20,16 @@ urlpatterns = [
     # TODO: Enable once auth is figured out
     # path('page/<slug:slug>/edit', views.PageUpdateView.as_view(),
     #     name='page-edit'),
+
+    path('project/',
+         RedirectView.as_view(url=reverse_lazy(f'{app_name}:project-list')),
+         name='project-index'),
+    path('project/list', project.ProjectListView.as_view(),
+         name='project-list'),
+    path('project/search', project.ProjectSearchView.as_view(),
+         name='project-search'),
+    path('project/<slug:slug>/', project.ProjectDetailView.as_view(),
+         name='project-detail'),
 
     path('tag/',
          RedirectView.as_view(url=reverse_lazy(f'{app_name}:tag-list')),

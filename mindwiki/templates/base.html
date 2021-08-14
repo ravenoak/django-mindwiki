@@ -38,6 +38,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarBrowseDropdown">
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:page-index' %}">Pages</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mindwiki:project-index' %}">Projects</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:tag-index' %}">Tags</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:weblink-index' %}">WebLinks</a></li>
                             </ul>
@@ -49,6 +50,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarSearchDropdown">
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:page-search' %}">Pages</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'mindwiki:project-search' %}">Projects</a>
+                                </li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:tag-search' %}">Tags</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:weblink-search' %}">WebLinks</a>
                                 </li>
