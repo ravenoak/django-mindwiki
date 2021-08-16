@@ -7,6 +7,7 @@ __all__ = [
 
 from django.contrib import admin
 from django.db import models
+from django.urls import reverse
 
 
 class Page(models.Model):
@@ -18,13 +19,12 @@ class Page(models.Model):
     tags = models.ManyToManyField('Tag')
 
     def __repr__(self):
-        return self.slug
+        return f'Page(slug="{self.slug}" title="{self.title}")'
 
     def __str__(self):
-        return self.title
+        return f"{self.slug}"
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('mindwiki:page-detail', kwargs={'slug': self.slug})
 
 
@@ -43,6 +43,7 @@ class Project(models.Model):
         NOT_STARTED = 'NS', 'Not Started'
         IN_PROGRESS = 'IP', 'In Progress'
         BLOCKED = 'B', 'Blocked'
+        COMPLETED = 'C', 'Closed'
 
     name = models.CharField(max_length=64)
     description = models.TextField(blank=True)
@@ -51,14 +52,24 @@ class Project(models.Model):
         choices=ProjectStatus.choices,
         default=ProjectStatus.NOT_STARTED,
         max_length=3, )
+    #status_line = models.CharField(max_length=256)
     pages = models.ManyToManyField('Page')
     tags = models.ManyToManyField('Tag')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    def __repr__(self):
+        return f'Project(slug="{self.slug}")'
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('mindwiki:project-detail', kwargs={'slug': self.slug})
+
 
 class ProjectAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['tags']
+    autocomplete_fields = ['pages', 'tags']
     list_display = ('name', 'status')
     list_filter = ('status', 'tags')
     prepopulated_fields = {'slug': ('name',)}
@@ -75,13 +86,12 @@ class Tag(models.Model):
     description = models.TextField(blank=True)
 
     def __repr__(self):
-        return self.slug
+        return f'Tag(slug="{self.slug}")'
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('mindwiki:tag-detail', kwargs={'slug': self.slug})
 
 
@@ -100,13 +110,12 @@ class WebLink(models.Model):
     last_verified = models.DateTimeField(blank=True, null=True)
 
     def __repr__(self):
-        return self.slug
+        return f'WebLink(slug="{self.slug}")'
 
     def __str__(self):
         return self.url
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('mindwiki:weblink-detail', kwargs={'slug': self.slug})
 
 

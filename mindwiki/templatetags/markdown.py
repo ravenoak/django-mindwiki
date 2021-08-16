@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse
 from django.template.defaultfilters import stringfilter
 
 import markdown as md
@@ -20,8 +21,8 @@ def markdown(text):
                     'tables',
                     'toc',
                     PlantUMLMarkdownExtension(),
-                    WikiLinkExtension(base_url='/mindwiki/page/'),
+                    WikiLinkExtension(base_url=reverse('mindwiki:page-index')),
                     ExtLinkExtension(
-                        base_url='http://localhost:1312/wiki/weblink/', # FIXME
+                        base_url=reverse('mindwiki:weblink-index'),
                         end_url='/?json=true')
                     ])
