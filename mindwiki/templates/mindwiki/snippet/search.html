@@ -2,9 +2,9 @@
 {% load static %}
 {% load markdown %}
 {% block metatags %}
-    <title>WebLink Search | MindWiki</title>
+    <title>Search | MindWiki</title>
     <meta name="description" content="A Wiki to organize your thoughts">
-    <meta property="og:title" content="WebLink Search">
+    <meta property="og:title" content="Search">
     <meta property="og:site_name" content="MindWiki">
     <meta property="og:url" content="http://localhost">
     <meta property="og:description" content="A Wiki to organize your thoughts">
@@ -13,7 +13,7 @@
 {% block content %}
     <header class="jumbotron">
         <div class="container">
-            <p class="h1">Search the <strong>MindWiki</strong>: WebLinks</p>
+            <p class="h1">Search the <strong>MindWiki</strong>: Snippets</p>
         </div>
     </header>
     <div class="container">
@@ -23,8 +23,7 @@
                     <label for="contains" class="form-label">Contains</label>
                     <input type="search" id="contains" name="contains">
                     <div id="containsHelpBlock" class="form-text">
-                        Performs a sub-string search on the <strong>slug</strong> and <strong>description</strong>
-                        fields.
+                        Performs a sub-string search on the <strong>body</strong> and <strong>title</strong> fields.
                     </div>
                 </div>
                 <div class="mb-3">
@@ -41,23 +40,19 @@
         <div class="row">
             <div class="col-md-8 mt-3 left">
                 {% if search_results %}
-                    {% for weblink in search_results %}
-                        <div class="shadow-none card mb-4" id="newsfeed"
-                             style="background-image: url({% url 'word_cloud:create' %}?width=350&height=70&bg=F1F8E9&words={{ weblink.tags.all|join:'.'|urlencode }}&cmap=Set2); background-repeat: no-repeat; background-position: right; background-color: #F1F8E9;">
+                    {% for snippet in search_results %}
+                        <div class="shadow-none card mb-4" id="newsfeed">
                             <div class="card-body">
                                 <h3 class="card-title">
-                                    <a href="{% url 'mindwiki:weblink-detail' weblink.slug %}"
-                                       style="background-color: #F1F8E9;">{{ weblink.slug }}</a>
+                                    <a href="{% url 'mindwiki:snippet-detail' snippet.slug %}">{{ snippet.title }}</a>
                                 </h3>
-                                <p>{{ weblink.url }}</p>
                             </div>
                         </div>
                     {% endfor %}
                 {% else %}
                     <div class="container-fluid">
                         <p>
-                            No WebLinks are available. Why don't you <a href="{% url 'admin:mindwiki_weblink_add' %}">add
-                            one</a>.
+                            No snippets are available. Why don't you <a href="{% url 'admin:mindwiki_snippet_add' %}">add one</a>.
                         </p>
                     </div>
                 {% endif %}

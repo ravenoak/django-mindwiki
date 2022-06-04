@@ -40,11 +40,11 @@ class Command(BaseCommand):
                 descr += f'\n{bm["tags"]}'
                 tags += bm['tags']
             tags = list(dict.fromkeys(tags))
-            hash = hashlib.md5()
-            hash.update(
+            ident_hash = hashlib.md5()
+            ident_hash.update(
                 bm['title'].encode('utf-8') + bm['path'].encode('utf-8') + bm[
                     'uri'].encode('utf-8'))
-            slug = 'imported-' + hash.hexdigest()
+            slug = 'imported-' + ident_hash.hexdigest()
             data = {'url': bm['uri'],
                     'tags': tags,
                     'description': descr,

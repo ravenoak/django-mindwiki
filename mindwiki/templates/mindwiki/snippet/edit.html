@@ -2,9 +2,9 @@
 {% load static %}
 {% load markdown %}
 {% block metatags %}
-    <title>Add New Page | MindWiki</title>
+    <title>Add New Snippet | MindWiki</title>
     <meta name="description" content="A Wiki to organize your thoughts">
-    <meta property="og:title" content="Add New Page">
+    <meta property="og:title" content="Add New Snippet">
     <meta property="og:site_name" content="MindWiki">
     <meta property="og:url" content="http://localhost">
     <meta property="og:description" content="A Wiki to organize your thoughts">
@@ -15,7 +15,7 @@
     <header class="jumbotron">
         <div class="container">
             <p class="h1"><strong>
-                {% if page %}{{ page }}{% else %}Add New Page{% endif %}
+                {% if snippet %}{{ snippet }}{% else %}Add New Snippet{% endif %}
             </strong></p>
 
         </div>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    {% if page %}Update Page{% else %}Add New Page{% endif %}
+                    {% if snippet %}Update Snippet{% else %}Add New Snippet{% endif %}
                 </button>
             </form>
             <!-- <script>

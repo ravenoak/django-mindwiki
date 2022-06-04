@@ -2,9 +2,9 @@
 {% load static %}
 {% load markdown %}
 {% block metatags %}
-    <title>WebLink Search | MindWiki</title>
+    <title>Project Search | MindWiki</title>
     <meta name="description" content="A Wiki to organize your thoughts">
-    <meta property="og:title" content="WebLink Search">
+    <meta property="og:title" content="Project Search">
     <meta property="og:site_name" content="MindWiki">
     <meta property="og:url" content="http://localhost">
     <meta property="og:description" content="A Wiki to organize your thoughts">
@@ -13,7 +13,7 @@
 {% block content %}
     <header class="jumbotron">
         <div class="container">
-            <p class="h1">Search the <strong>MindWiki</strong>: WebLinks</p>
+            <p class="h1">Search the <strong>MindWiki</strong>: Projects</p>
         </div>
     </header>
     <div class="container">
@@ -41,23 +41,23 @@
         <div class="row">
             <div class="col-md-8 mt-3 left">
                 {% if search_results %}
-                    {% for weblink in search_results %}
+                    {% for project in search_results %}
                         <div class="shadow-none card mb-4" id="newsfeed"
-                             style="background-image: url({% url 'word_cloud:create' %}?width=350&height=70&bg=F1F8E9&words={{ weblink.tags.all|join:'.'|urlencode }}&cmap=Set2); background-repeat: no-repeat; background-position: right; background-color: #F1F8E9;">
+                             style="background-image: url({% url 'word_cloud:create' %}?width=350&height=70&bg=F1F8E9&words={{ project.tags.all|join:'.'|urlencode }}&cmap=Set2); background-repeat: no-repeat; background-position: right; background-color: #F1F8E9;">
                             <div class="card-body">
                                 <h3 class="card-title">
-                                    <a href="{% url 'mindwiki:weblink-detail' weblink.slug %}"
-                                       style="background-color: #F1F8E9;">{{ weblink.slug }}</a>
+                                    <a href="{% url 'mindwiki:project-detail' project.slug %}"
+                                       style="background-color: #F1F8E9;">{{ project.slug }}</a>
                                 </h3>
-                                <p>{{ weblink.url }}</p>
+                                <p>{{ project.url }}</p>
                             </div>
                         </div>
                     {% endfor %}
                 {% else %}
                     <div class="container-fluid">
                         <p>
-                            No WebLinks are available. Why don't you <a href="{% url 'admin:mindwiki_weblink_add' %}">add
-                            one</a>.
+                            No Projects are available. Why don't you <a href="{% url 'admin:mindwiki_project_add' %}">
+                            add one</a>.
                         </p>
                     </div>
                 {% endif %}

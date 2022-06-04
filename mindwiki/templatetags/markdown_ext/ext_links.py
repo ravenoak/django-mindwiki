@@ -1,17 +1,17 @@
 __all__ = ['ExtLinkExtension']
 
-import re
+import logging
 import xml.etree.ElementTree as etree
 
 from markdown.extensions import Extension
 from markdown.inlinepatterns import InlineProcessor
 import requests
 
+from .utils import build_url
 
-def build_url(label, base, end):
-    """ Build a url from the label, a base, and an end. """
-    clean_label = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', label)
-    return '{}{}{}'.format(base, clean_label, end)
+EXTLINK_RE = r'\[\[Ext:([\w0-9_ -]+)\]\]'
+
+logger = logging.getLogger()
 
 
 class ExtLinkExtension(Extension):
@@ -27,13 +27,8 @@ class ExtLinkExtension(Extension):
         super().__init__(**kwargs)
 
     def extendMarkdown(self, md):
-        self.md = md
-
-        # append to end of inline patterns
-        EXTLINK_RE = r'\[\[Ext:([\w0-9_ -]+)\]\]'
-        extlinkPattern = ExtLinksInlineProcessor(EXTLINK_RE, self.getConfigs())
-        extlinkPattern.md = md
-        md.inlinePatterns.register(extlinkPattern, 'extlink', 75)
+        extlink = ExtLinksInlineProcessor(EXTLINK_RE, self.getConfigs())
+        md.inlinePatterns.register(extlink, 'extlink', 75)
 
 
 class ExtLinksInlineProcessor(InlineProcessor):
@@ -44,16 +39,18 @@ class ExtLinksInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         if m.group(1).strip():
             base_url, end_url, html_class = self._getMeta()
-            label = m.group(1).strip()
-            call_url = self.config['build_url'](label, base_url, end_url)
+            slug = m.group(1).strip()
+            call_url = self.config['build_url'](slug, base_url, end_url)
             try:
-                info = requests.get(call_url).json()['data']
+                data = requests.get(call_url).json()['data']
                 a = etree.Element('a')
-                a.text = label + ' [external]'
-                a.set('href', info['url'])
+                a.text = slug + ' [external]'
+                a.set('href', data['url'])
                 if html_class:
                     a.set('class', html_class)
-            except (requests.exceptions.HTTPError, KeyError):
+            except (KeyError,
+                    requests.exceptions.JSONDecodeError,
+                    requests.exceptions.HTTPError):
                 a = ''
         else:
             a = ''
@@ -72,7 +69,3 @@ class ExtLinksInlineProcessor(InlineProcessor):
             if 'ext_html_class' in self.md.Meta:
                 html_class = self.md.Meta['ext_html_class'][0]
         return base_url, end_url, html_class
-
-
-def makeExtension(**kwargs):  # pragma: no cover
-    return ExtLinkExtension(**kwargs)
