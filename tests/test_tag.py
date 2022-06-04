@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from mindwiki.models import Tag
+from mindwiki.models.base import Tag
 
 
 class TagTestCase(TestCase):

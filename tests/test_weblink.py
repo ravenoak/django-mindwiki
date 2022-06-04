@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from mindwiki.models import WebLink
+from mindwiki.models.links import WebLink
 
 
 class WebLinkTestCase(TestCase):

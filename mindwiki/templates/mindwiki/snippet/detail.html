@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% load markdown %}
-{% load project %}
 {% block metatags %}
-    <title>{{ project.slug }} | Project | MindWiki</title>
+    <title>{{ snippet.title }} | MindWiki</title>
     <meta name="description" content="A Wiki to organize your thoughts">
-    <meta property="og:title" content="project-{{ project.slug }}">
+    <meta property="og:title" content="{{ snippet.title }}">
     <meta property="og:site_name" content="MindWiki">
     <meta property="og:url" content="http://localhost">
     <meta property="og:description" content="A Wiki to organize your thoughts">
@@ -16,12 +15,12 @@
         <div class="container">
             <nav id="page-nav" class="navbar navbar-expand-lg shadow">
                 <div class="container-fluid">
-                    <p class="h1"><strong>Project: {{ project.name }}</strong> {% project_status project %}</p>
+                    <p class="h1"><strong>{{ snippet.title }}</strong></p>
                 </div>
                 <div class="nav justify-content-end">
                     <div class="d-inline">
                         <a class="nav-link text-black font-weight-bold"
-                           href="{% url 'admin:mindwiki_project_change' project.pk %}">edit</a>
+                           href="{% url 'admin:mindwiki_snippet_change' snippet.pk %}">edit</a>
                     </div>
                 </div>
             </nav>
@@ -29,28 +28,14 @@
     </header>
     <div class="container">
         <div class="row">
-            <p>{{ project.status_line }}</p>
-        </div>
-        <div class="row">
             <div class="col-md-8 mt-3 left">
                 <div class="container-fluid">
-                    {{ project.description | markdown | safe }}
-                </div>
-                <div class="container-fluid">
-                    {{ project.body | markdown | safe }}
-                </div>
-                <div class="container-fluid">
-                    Pages:
-                    <ul>
-                        {% for page in project.pages.all %}
-                            <li><a href="{% url 'mindwiki:page-detail' page.slug %}">{{ page.title }}</a></li>
-                        {% endfor %}
-                    </ul>
+                    {{ snippet.body | markdown | safe }}
                 </div>
                 <div class="container-fluid">
                     Tags:
                     <ul>
-                        {% for tag in project.tags.all %}
+                        {% for tag in snippet.tags.all %}
                             <li>{{ tag.name }}</li>
                         {% endfor %}
                     </ul>

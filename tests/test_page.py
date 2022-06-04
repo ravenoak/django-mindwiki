@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from mindwiki.models import Page
+from mindwiki.models.pages import Page
 
 
 class PageTestCase(TestCase):
