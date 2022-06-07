@@ -36,3 +36,17 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ['description__contains',
                      'name__contains',
                      'slug__contains']
+
+
+class Category(Tag):
+    tags = models.ManyToManyField('Tag', related_name='category_tags', )
+
+    def __repr__(self):
+        return f'Category(slug="{self.slug}")'
+
+    def get_absolute_url(self):
+        return reverse('mindwiki:category-detail', kwargs={'slug': self.slug})
+
+
+class CategoryAdmin(TagAdmin):
+    pass
