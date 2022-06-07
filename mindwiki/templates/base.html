@@ -37,6 +37,9 @@
                                 Browse
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarBrowseDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'mindwiki:category-index' %}">Categories</a>
+                                </li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:file-index' %}">Files</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:image-index' %}">Images</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:page-index' %}">Pages</a></li>
@@ -52,6 +55,9 @@
                                 Search
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarSearchDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'mindwiki:category-search' %}">Categories</a>
+                                </li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:file-search' %}">Files</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:image-search' %}">Images</a></li>
                                 <li><a class="dropdown-item" href="{% url 'mindwiki:page-search' %}">Pages</a></li>
