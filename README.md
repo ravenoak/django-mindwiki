@@ -1,6 +1,7 @@
 # django-mindwiki
 
-`django-mindwiki`, or just 'MindWiki', is a Django App intended to be a Personal Wiki.
+`django-mindwiki`, or just 'MindWiki', is a Django App intended to be a Personal Wiki and Second Brain. Some inspiration
+has been taken from https://fortelabs.co/blog/basboverview/
 
 # Quick start
 
