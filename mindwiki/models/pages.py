@@ -1,22 +1,28 @@
-from django.contrib import admin
 from django.db import models
 from django.urls import reverse
+from markdownx.admin import MarkdownxModelAdmin
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from .base import WikiItem
 
 
 class Page(WikiItem):
     title = models.CharField(max_length=64)
-    body = models.TextField()
+    _body = MarkdownxField(db_column="body")
 
     def __repr__(self):
         return f'Page(slug="{self.slug}" title="{self.title}")'
+
+    @property
+    def body(self):
+        return markdownify(self._body)
 
     def get_absolute_url(self):
         return reverse('mindwiki:page-detail', kwargs={'slug': self.slug})
 
 
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ['tags']
     list_display = ('slug', 'date_created', 'date_modified')
     prepopulated_fields = {'slug': ('title',)}
@@ -33,7 +39,6 @@ class Project(Page):
         BLOCKED = 'B', 'Blocked'
         COMPLETED = 'C', 'Closed'
 
-    description = models.TextField(blank=True)
     status = models.CharField(
         choices=ProjectStatus.choices,
         default=ProjectStatus.NOT_STARTED,
@@ -63,7 +68,6 @@ class ProjectAdmin(PageAdmin):
 
 
 class Snippet(Page):
-    description = models.TextField(blank=True)
 
     def __repr__(self):
         return f'Snippet(slug="{self.slug}")'

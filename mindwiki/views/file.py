@@ -47,6 +47,6 @@ class FileSearchView(generic.ListView):
         if contains is not None and contains != '':
             query_set = query_set.filter(
                 slug__contains=contains) | query_set.filter(
-                description__contains=contains) | query_set.filter(
+                _description__contains=contains) | query_set.filter(
                 url__contains=contains)
         return query_set

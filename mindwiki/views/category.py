@@ -31,5 +31,5 @@ class CategorySearchView(generic.ListView):
             query_set = query_set.filter(
                 name__contains=contains) | query_set.filter(
                 slug__contains=contains) | query_set.filter(
-                description__contains=contains)
+                _description__contains=contains)
         return query_set

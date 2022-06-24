@@ -56,3 +56,8 @@ class SnippetPreprocessor(Preprocessor):
                         requests.exceptions.HTTPError):
                     pass
         return new_lines
+
+
+# noinspection PyPep8Naming
+def makeExtension(**kwargs):  # pragma: no cover
+    return SnippetExtension(**kwargs)

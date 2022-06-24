@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load markdown %}
 {% load project %}
 {% block metatags %}
     <title>{{ project.slug }} | Project | MindWiki</title>
@@ -34,10 +33,10 @@
         <div class="row">
             <div class="col-md-8 mt-3 left">
                 <div class="container-fluid">
-                    {{ project.description | markdown | safe }}
+                    {{ project.description | safe }}
                 </div>
                 <div class="container-fluid">
-                    {{ project.body | markdown | safe }}
+                    {{ project.body | safe }}
                 </div>
                 <div class="container-fluid">
                     Pages:

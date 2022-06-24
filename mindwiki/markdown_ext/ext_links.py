@@ -69,3 +69,8 @@ class ExtLinksInlineProcessor(InlineProcessor):
             if 'ext_html_class' in self.md.Meta:
                 html_class = self.md.Meta['ext_html_class'][0]
         return base_url, end_url, html_class
+
+
+# noinspection PyPep8Naming
+def makeExtension(**kwargs):  # pragma: no cover
+    return ExtLinkExtension(**kwargs)
