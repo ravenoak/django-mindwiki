@@ -1,4 +1,4 @@
-__all__ = ['ExtLinkExtension']
+__all__ = ['ExtLinkExtension', 'makeExtension']
 
 import logging
 import xml.etree.ElementTree as etree

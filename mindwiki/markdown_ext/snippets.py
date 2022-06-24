@@ -1,3 +1,5 @@
+__all__ = ['SnippetExtension', 'makeExtension']
+
 import logging
 import re
 
