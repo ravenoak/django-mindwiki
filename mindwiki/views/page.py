@@ -50,5 +50,5 @@ class PageSearchView(generic.ListView):
             query_set = query_set.filter(
                 _body__contains=contains) | query_set.filter(
                 _description__contains=contains) | query_set.filter(
-                title__contains=contains)
+                title__contains=contains).order_by('-id')
         return query_set

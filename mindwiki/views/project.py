@@ -37,5 +37,5 @@ class ProjectSearchView(generic.ListView):
             query_set = query_set.filter(
                 _body__contains=contains) | query_set.filter(
                 _description__contains=contains) | query_set.filter(
-                name__contains=contains)
+                name__contains=contains).order_by('-id')
         return query_set
