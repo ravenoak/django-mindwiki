@@ -47,6 +47,6 @@ class ImageSearchView(generic.ListView):
         if contains is not None and contains != '':
             query_set = query_set.filter(
                 slug__contains=contains) | query_set.filter(
-                description__contains=contains) | query_set.filter(
-                url__contains=contains)
+                _description__contains=contains) | query_set.filter(
+                url__contains=contains).order_by('-id')
         return query_set

@@ -4,15 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "==4.0.4"
-markdown = "==3.3.6"
-Pillow = "==9.1.0"
+Django = "*"
+markdown = "*"
+Pillow = "*"
 plantuml-markdown = "*"
 Pygments = "*"
 requests = "*"
 six = "*"
 setuptools = "*"
-ipython = "==8.2.0"
+ipython = "*"
+django-markdownx = "*"
 
 [requires]
 python_version = "3.9"

@@ -48,6 +48,7 @@ class PageSearchView(generic.ListView):
                 query_set = query_set.filter(tags__name__contains=tag)
         if contains is not None and contains != '':
             query_set = query_set.filter(
-                body__contains=contains) | query_set.filter(
-                title__contains=contains)
+                _body__contains=contains) | query_set.filter(
+                _description__contains=contains) | query_set.filter(
+                title__contains=contains).order_by('-id')
         return query_set

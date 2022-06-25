@@ -1,13 +1,12 @@
-from django.contrib import admin
 from django.db import models
 from django.urls import reverse
+from markdownx.admin import MarkdownxModelAdmin
 
 from .base import WikiItem
 
 
 class WebLink(WikiItem):
     url = models.URLField(unique=True, verbose_name='URL')
-    description = models.TextField(blank=True)
     last_verified = models.DateTimeField(blank=True, null=True)
 
     def __repr__(self):
@@ -17,7 +16,7 @@ class WebLink(WikiItem):
         return reverse('mindwiki:weblink-detail', kwargs={'slug': self.slug})
 
 
-class WebLinkAdmin(admin.ModelAdmin):
+class WebLinkAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ['tags']
     list_display = ('slug', 'url', 'last_verified')
     list_filter = ('last_verified', 'tags')
