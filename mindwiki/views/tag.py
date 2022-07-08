@@ -1,35 +1,14 @@
-__all__ = ['TagDetailView', 'TagListView', 'TagSearchView']
+__all__ = ['TagViewSet']
 
 from django.views import generic
+from rest_framework import viewsets
 
 from mindwiki.models import Tag
-
-TEMPLATE_PATH = 'mindwiki/tag/'
-
-
-class TagDetailView(generic.DetailView):
-    model = Tag
-    template_name = TEMPLATE_PATH + 'detail.html'
+from mindwiki.serializers import TagSerializer
 
 
-class TagListView(generic.ListView):
-    model = Tag
-    paginate_by = 9
-    template_name = TEMPLATE_PATH + 'list.html'
-
-
-class TagSearchView(generic.ListView):
-    context_object_name = 'search_results'
-    paginate_by = 9
-    template_name = TEMPLATE_PATH + 'search.html'
-
-    def get_queryset(self):
-        contains = self.request.GET.get('contains', None)
-
-        query_set = Tag.objects.all()
-        if contains is not None and contains != '':
-            query_set = query_set.filter(
-                name__contains=contains) | query_set.filter(
-                slug__contains=contains) | query_set.filter(
-                _description__contains=contains).order_by('-id')
-        return query_set
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'tag_slug'

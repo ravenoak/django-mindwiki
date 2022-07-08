@@ -18,7 +18,7 @@ class File(WikiItem):
 
 class FileAdmin(MarkdownxModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['description__contains',
+    search_fields = ['_description__contains',
                      'name__contains',
                      'slug__contains']
 
@@ -36,6 +36,6 @@ class Image(WikiItem):
 
 class ImageAdmin(MarkdownxModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['description__contains',
+    search_fields = ['_description__contains',
                      'name__contains',
                      'slug__contains']

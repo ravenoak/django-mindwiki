@@ -9,7 +9,11 @@ class WikiItem(models.Model):
     slug = models.SlugField(unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    _description = MarkdownxField(blank=True, db_column="description")
+    _description = MarkdownxField(blank=True,
+                                  db_column="description",
+                                  verbose_name="description",
+                                  help_text="Rendered description of the wiki "
+                                            "item")
     tags = models.ManyToManyField('Tag')
 
     class Meta:
@@ -20,13 +24,16 @@ class WikiItem(models.Model):
 
     @property
     def description(self):
-        return markdownify(self._description)
+        return markdownify(str(self._description))
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(unique=True)
-    _description = MarkdownxField(blank=True)
+    _description = MarkdownxField(blank=True,
+                                  db_column="description",
+                                  verbose_name="description",
+                                  help_text="Rendered description of the tag")
 
     def __repr__(self):
         return f'Tag(slug="{self.slug}")'
@@ -36,7 +43,7 @@ class Tag(models.Model):
 
     @property
     def description(self):
-        return markdownify(self._description)
+        return markdownify(str(self._description))
 
     def get_absolute_url(self):
         return reverse('mindwiki:tag-detail', kwargs={'slug': self.slug})
@@ -44,13 +51,13 @@ class Tag(models.Model):
 
 class TagAdmin(MarkdownxModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['description__contains',
+    search_fields = ['_description__contains',
                      'name__contains',
                      'slug__contains']
 
 
 class Category(Tag):
-    tags = models.ManyToManyField('Tag', related_name='category_tags', )
+    tags = models.ManyToManyField('Tag', related_name='tag_categories', )
 
     def __repr__(self):
         return f'Category(slug="{self.slug}")'

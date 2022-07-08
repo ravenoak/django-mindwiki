@@ -9,14 +9,16 @@ from .base import WikiItem
 
 class Page(WikiItem):
     title = models.CharField(max_length=64)
-    _body = MarkdownxField(db_column="body")
+    _body = MarkdownxField(db_column="body",
+                           verbose_name="Body",
+                           help_text="Main rendered text of the item")
 
     def __repr__(self):
         return f'Page(slug="{self.slug}" title="{self.title}")'
 
     @property
     def body(self):
-        return markdownify(self._body)
+        return markdownify(str(self._body))
 
     def get_absolute_url(self):
         return reverse('mindwiki:page-detail', kwargs={'slug': self.slug})
@@ -26,7 +28,7 @@ class PageAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ['tags']
     list_display = ('slug', 'date_created', 'date_modified')
     prepopulated_fields = {'slug': ('title',)}
-    search_fields = ['body__contains',
+    search_fields = ['_body__contains',
                      'slug__contains',
                      'title__contains',
                      'tags__name__contains']
@@ -59,11 +61,11 @@ class ProjectAdmin(PageAdmin):
     autocomplete_fields = ['pages', 'tags']
     list_display = ('slug', 'date_created', 'date_modified', 'status')
     list_filter = ('status', 'tags')
-    search_fields = ['body__contains',
+    search_fields = ['_body__contains',
                      'slug__contains',
                      'title__contains',
                      'tags__name__contains',
-                     'description__contains',
+                     '_description__contains',
                      'status__contains']
 
 
@@ -77,8 +79,8 @@ class Snippet(Page):
 
 
 class SnippetAdmin(PageAdmin):
-    search_fields = ['body__contains',
+    search_fields = ['_body__contains',
                      'slug__contains',
                      'title__contains',
                      'tags__name__contains',
-                     'description__contains']
+                     '_description__contains']

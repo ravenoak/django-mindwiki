@@ -1,11 +1,20 @@
-from .category import (
-    CategoryDetailView, CategoryListView, CategorySearchView)
-from .file import (FileDetailView, FileListView, FileSearchView)
-from .image import (ImageDetailView, ImageListView, ImageSearchView)
-from .page import (
-    PageCreateView, PageDetailView, PageListView, PageSearchView,
-    PageUpdateView)
-from .project import (ProjectDetailView, ProjectListView, ProjectSearchView)
-from .snippet import (SnippetDetailView, SnippetListView, SnippetSearchView)
-from .tag import (TagDetailView, TagListView, TagSearchView)
-from .weblink import (WebLinkDetailView, WebLinkListView, WebLinkSearchView)
+from django.views.generic import TemplateView
+
+from .category import CategoryViewSet
+from .file import FileViewSet
+from .image import ImageViewSet
+from .page import PageViewSet
+from .project import ProjectViewSet
+from .snippet import SnippetViewSet
+from .tag import TagViewSet
+from .weblink import WebLinkViewSet
+
+
+# View for single-page app
+class FrontPageView(TemplateView):
+    template_name = 'mindwiki/frontpage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+

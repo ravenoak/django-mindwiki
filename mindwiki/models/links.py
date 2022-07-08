@@ -20,7 +20,7 @@ class WebLinkAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ['tags']
     list_display = ('slug', 'url', 'last_verified')
     list_filter = ('last_verified', 'tags')
-    search_fields = ['description__contains',
+    search_fields = ['_description__contains',
                      'slug__contains',
                      'url__contains',
                      'tags__name__contains']
